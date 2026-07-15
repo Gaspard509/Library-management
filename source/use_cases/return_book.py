@@ -11,6 +11,9 @@ class BookOutput:
         self.book = book
         self.message = message
 
+class returnBookInput:
+    def __init__(self, title:str):
+        self.title = title
 
 class ReturnBook:
     def __init__(self, repository:BookRepository):

@@ -1,13 +1,12 @@
 from typing import List, Optional
 
-from source.interface_adapters.controllers.controller import Controller
 from source.use_cases.add_book import AddBook, AddBookInput, BookOutput
 from source.use_cases.interface.interface import BookRepository
 from source.use_cases.borrow_book import BorrowBook, BorrowBookInput
 from source.use_cases.return_book import ReturnBook, ReturnBookInput
 from source.use_cases.list_books import ListBooks, ListBooksOutput
-from source.entities.book import Book
-from source.interface_adapters.controllers.controller import Controller
+
+
 
 class BookController(Controller):
     def __init__(self, repository: BookRepository):

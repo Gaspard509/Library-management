@@ -6,12 +6,16 @@ class BookOutput:
         self.book = book
         self.message = message
 
+class BorrowBookInput:
+    def __init__(self, book_id: int):
+        self.book_id = book_id        
+
 class BorrowBook:
     def __init__(self, repository: BookRepository):
         self.repository = repository
 
     def execute(self, book_id: int) -> BookOutput:
-        book = self.repository.get_book(repository.title)
+        book = self.repository.get_book(book_id)
         if not book:
             return BookOutput(book, "Book not found")
         if not book.is_available():
