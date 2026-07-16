@@ -1,4 +1,4 @@
-from source.use_cases.interface import BookRepository
+from source.use_cases.interface.interface import BookRepository
 from source.entities.book  import Book
 
 class BookInput:
@@ -11,7 +11,7 @@ class BookOutput:
         self.book = book
         self.message = message
 
-class returnBookInput:
+class ReturnBookInput:
     def __init__(self, title:str):
         self.title = title
 

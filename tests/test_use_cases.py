@@ -9,7 +9,7 @@ from soource.entities.book import BookStatus
 
 
 @pytesr.fixture
-    def repository():
+def repository():
     return InMemoryBookRepository()
 
 class TestBorrowBook:

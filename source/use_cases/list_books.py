@@ -1,6 +1,6 @@
 from source.use_cases.interface.interface import BookRepository
 
-class ListBooksOuput:
+class ListBooksOutput:
     def __init__(self, books):
         self.books = books
 

@@ -1,4 +1,7 @@
 from typing import List, Optional
+from source.use_cases.interface.interface import BookRepository
+from source.entities.book import Book
+from source.interface_adapters.presenters.book_presenter import BookPresenter
 
 from source.use_cases.add_book import AddBook, AddBookInput, BookOutput
 from source.use_cases.interface.interface import BookRepository
@@ -8,26 +11,26 @@ from source.use_cases.list_books import ListBooks, ListBooksOutput
 
 
 
-class BookController(Controller):
+class BookController:
     def __init__(self, repository: BookRepository):
-        self.repository = repository
+        self.add_book_use_case = AddBook(repository)
+        self.borrow_book_use_case = BorrowBook(repository)
+        self.return_book_use_case = ReturnBook(repository)
+        self.list_books_use_case = ListBooks(repository)
 
     def add_book(self, title: str, author: str) -> BookOutput:
-        use_case = AddBook(self.repository)
+        use_case = AddBook.execute(AddBookInput(title, author))
         input_data = AddBookInput(title, author)
-        return use_case.execute(input_data)
+        return BookPresenter.present(input_data)
 
     def borrow_book(self, book_id: int) -> BookOutput:
-        use_case = BorrowBook(self.repository)
-        input_data = BorrowBookInput(book_id)
-        return use_case.execute(input_data)
+        use_case = BorrowBook.execute(BorrowBookInput(book_id))
+        return BookPresenter.present(use_case)
 
     def return_book(self, title: str) -> BookOutput:
-        use_case = ReturnBook(self.repository)
-        input_data = ReturnBookInput(title)
-        return use_case.execute(input_data)
+        use_case = ReturnBook.execute(ReturnBookInput(title))
+        return BookPresenter.present(use_case)
 
     def list_books(self) -> ListBooksOutput:
-        use_case = ListBooks(self.repository)
-        return use_case.execute()
-        
+        use_case = ListBooks.execute()
+        return BookPresenter.present(use_case)

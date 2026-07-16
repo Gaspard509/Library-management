@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 
-from source.interface_adapters.controllers.book_controller import BookController
+from source.interface_adapters.controllers.book_controller.py import BookController
 from source.interface_adapters.repositories.in_memory_book_repository import InMemoryBookRepository
 
 def create_app():

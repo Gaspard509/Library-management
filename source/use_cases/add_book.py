@@ -1,7 +1,5 @@
-from source.entities.book import Book
 from source.use_cases.interface.interface import BookRepository
-
-
+from source.entities.book import Book
 
 class AddBookInput:
     def __init__(self, title, author):
