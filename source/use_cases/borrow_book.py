@@ -1,25 +1,32 @@
 from source.entities.book import Book
 from source.use_cases.interface.interface import BookRepository
 
-class BookOutput:
+
+class BorrowBookInput:
+    def __init__(self, book_id: int):
+        self.book_id = book_id
+
+
+class BorrowBookOutput:
     def __init__(self, book: Book, message: str):
         self.book = book
         self.message = message
 
-class BorrowBookInput:
-    def __init__(self, book_id: int):
-        self.book_id = book_id        
 
 class BorrowBook:
     def __init__(self, repository: BookRepository):
         self.repository = repository
 
-    def execute(self, book_id: int) -> BookOutput:
-        book = self.repository.get_book(book_id)
+    def execute(self, input_data: BorrowBookInput) -> BorrowBookOutput:
+        book = self.repository.find_by_id(input_data.book_id)
+
         if not book:
-            return BookOutput(book, "Book not found")
+            return BorrowBookOutput(None, "Book not found")
+
         if not book.is_available():
-            return BookOutput(book, "Book is not available")
-        book.borrow()
-        self.repository.update_book(book)
-        return BookOutput(book, "Book borrowed successfully")
+            return BorrowBookOutput(None, "Book is not available")
+
+        book.borrow_book()
+        self.repository.update(book)
+
+        return BorrowBookOutput(book, "Book borrowed successfully")

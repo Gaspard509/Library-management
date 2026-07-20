@@ -1,29 +1,38 @@
-import copy
 from typing import List, Optional
 
 from source.entities.book import Book
 from source.use_cases.interface.interface import BookRepository
 
+
 class InMemoryBookRepository(BookRepository):
+
     def __init__(self):
         self.books: List[Book] = []
+        self.next_id = 1
 
-    def add_book(self, book: Book) -> Book:
+    def save(self, book: Book) -> Book:
+        book.id = self.next_id
+        self.next_id += 1
         self.books.append(book)
         return book
 
-    def get_book(self, book_id: int) -> Optional[Book]:
+    def find_by_id(self, book_id: int) -> Optional[Book]:
         for book in self.books:
             if book.id == book_id:
-                return copy.deepcopy(book)
+                return book
         return None
 
-    def update_book(self, book: Book) -> Book:
-        for i, b in enumerate(self.books):
-            if b.id == book.id:
-                self.books[i] = copy.deepcopy(book)
+    def find_by_title(self, title: str) -> Optional[Book]:
+        for book in self.books:
+            if book.title == title:
                 return book
-        raise ValueError("Book not found")
+        return None
 
-    def list_books(self) -> List[Book]:
-        return copy.deepcopy(self.books)
+    def find_all(self) -> List[Book]:
+        return self.books
+
+    def update(self, book: Book) -> Book:
+        # Objects are stored by reference in this in-memory list, so the
+        # entity is already mutated in place. This method exists to satisfy
+        # the BookRepository port and to make the persistence step explicit.
+        return book
